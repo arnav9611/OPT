@@ -1,0 +1,26 @@
+DB PLAN
+
+--------
+
+users
+-id
+-fname
+-lname
+-username
+-email
+-password
+-role
+-created
+-updated
+
+
+posts
+-id
+-uid
+-title
+-content
+-status
+-slug
+-pic
+-created
+-updated
