@@ -3,6 +3,8 @@ require_once('../includes/connect.php');
 include('includes/check-login.php');
 include('includes/check-admin.php');
 include('includes/check-subscriber.php');
+
+
 $sql = "SELECT * FROM users WHERE id=?";
 $result = $db->prepare($sql);
 $result->execute(array($_SESSION['id']));
@@ -14,10 +16,16 @@ if(isset($_GET) & !empty($_GET)){
 			$table = 'posts';
 			$redirect = "edit-article.php?id=$id";
 			break;
+		case 'tennisevent':
+			$table = 'tennisevent';
+			$redirect = "edit-tennisevent.php?id=$id";
+			break;
 		case 'page':
 			$table = 'pages';
 			$redirect = "edit-page.php?id=$id";
 			break;
+		
+		
 		default:
 			$redirect = 'dashboard.php';
 			break;

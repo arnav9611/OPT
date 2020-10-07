@@ -4,8 +4,12 @@ require_once('includes/connect.php');
 
 
 if(isset($_POST) & !empty($_POST)){
-	// PHP Form Validations
+	
     if(empty($_POST['comment'])){$errors[] = "Comment Field is Required";}
+    
+    
+    
+    
     // CSRF Token Validation
     if(isset($_POST['csrf_token'])){
         if($_POST['csrf_token'] === $_SESSION['csrf_token']){
@@ -15,6 +19,9 @@ if(isset($_POST) & !empty($_POST)){
     }else{
         $errors[] = "Problem with CSRF Token Validation";
     }
+   
+   
+   
     // CSRF Token Time Validation
     $max_time = 60*60*24;
     if(isset($_SESSION['csrf_token_time'])){
@@ -31,7 +38,7 @@ if(isset($_POST) & !empty($_POST)){
     }
 
 
-//If no errors , insert into values and execute
+
 
 
 
@@ -39,7 +46,7 @@ if(isset($_POST) & !empty($_POST)){
     	$sql = "INSERT INTO comments (uid, pid, comment, status) VALUES (:uid, :pid, :comment, 'approved')";
         $result = $db->prepare($sql);
         $values = array(':uid'      => $_POST['uid'],
-                        ':pid'    => $_POST['pid'],
+                        ':pid'      => $_POST['pid'],
                         ':comment'  => strip_tags($_POST['comment'])            //To save from XSS attack
                         );
         $res = $result->execute($values) or die(print_r($result->errorInfo(), true));

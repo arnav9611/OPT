@@ -2,7 +2,6 @@
 session_start();
 require_once('includes/connect.php');
 
-include('admin/includes/if-loggedin.php');
 include('includes/header.php');
 
 
@@ -92,12 +91,12 @@ include('includes/navigation.php');
 // 3. check the CSRF token on form submission
 ?>
 
-        <div class="col-md-4 offset-md-4">
-            <div class="card my-4">
+        <div class="col-md-4 offset-md-4" >
+            <div class="card my-4" style="border-radius:15px">
                 
-                    <h3 class="card-header"> Registration Form</h3>
+              <h3 class="card-header" style="background:#2cd44b;color:white;font-family:Anton;border-radius:15px 15px 0 0"> Become an Off Pitcher </h3>
                 
-                <div class="card-body">
+                <div class="card-body" style="background:white;border-radius:15px">
                     <?php
                         if(!empty($errors)){
                             echo "<div class='alert alert-danger'>";
@@ -122,24 +121,44 @@ include('includes/navigation.php');
                         <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="User Name" name="username" type="text" autofocus value="<?php if(isset($_POST['username'])){ echo $_POST['username']; } ?>">
+                                <input class="form-control" style="border-radius:15px" placeholder="User Name" name="username" type="text" autofocus value="<?php if(isset($_POST['username'])){ echo $_POST['username']; } ?>">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" value="<?php if(isset($_POST['email'])){ echo $_POST['email']; } ?>">
+                                <input class="form-control" style="border-radius:15px" placeholder="E-mail" name="email" type="email" value="<?php if(isset($_POST['email'])){ echo $_POST['email']; } ?>">
                             </div>
                             
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                <input class="form-control" style="border-radius:15px" placeholder="Password" name="password" type="password" value="">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Repeat Password" name="passwordr" type="password" value="">
+                                <input class="form-control" style="border-radius:15px" placeholder="Repeat Password" name="passwordr" type="password" value="">
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Register" />
+                            <input type="submit" class="btn " style="background:#2cd44b;color:white;font-family:Anton;letter-spacing:0.7px;border-radius:15px" value="Register" />
                         </fieldset>
                     </form>
+
+
                 </div>
             </div>
-        </div>
-    
+            <div >
+<p style="font-weight:500;"> Already A Member ? |
+<a href="login" style="color:#cf4c38;text-decoration:underline"> Log In </a>
+</p>
+</div>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
 <?php include('includes/footer.php'); ?>

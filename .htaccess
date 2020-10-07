@@ -1,0 +1,24 @@
+RewriteEngine on
+
+RewriteRule ^user/([-\w]+)$ user-posts.php?id=$1 [NC,L]
+
+
+
+
+
+
+
+
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
 require_once('../includes/connect.php');
 include('includes/check-login.php');
 
@@ -41,11 +41,11 @@ if (isset($_POST) & !empty($_POST))
 
          
 
-            $sql = "INSERT INTO points ( id,pos,club, mp, win, draw, lost, gf,ga,gd,points,league) 
-                    VALUES ( :id,:post,:club, :mp, :win, :draw, :lost, :gf,:ga,:gd,:points,:league)";
+            $sql = "INSERT INTO points ( pos,club, mp, win, draw, lost, gf,ga,gd,points,league) 
+                    VALUES ( :pos,:club, :mp, :win, :draw, :lost, :gf,:ga,:gd,:points,:league)";
             $result = $db->prepare($sql);
-            $values = array(':id'      => $_POST['id'],
-                             ':pos'    => $_POST['pos'],
+            $values = array(
+                            ':pos'    => $_POST['pos'],
                             ':club'    => $_POST['club'],
                             ':mp'      => $_POST['mp'],
                             ':win'     => $_POST['win'],

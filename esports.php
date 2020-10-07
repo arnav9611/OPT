@@ -1,5 +1,4 @@
-<link href="css/Style.css" rel="stylesheet">
-<link href="css/all.css" rel="stylesheet">
+
 
 
 
@@ -10,101 +9,101 @@
 <?php 
 session_start();
 require_once('includes/connect.php');
+include('admin/includes/if-loggedin.php');
 include('includes/header.php');
 include('includes/navigation.php'); 
 
-// get number of per page results from settings table
+?>
 
+<!-------------------------- TOP POST PART ---------------------------------------------------------------------------->
+  
 
+<?php 
 
-// fetch the results
 $sql = "SELECT * FROM posts WHERE status='published' and header='toppost' and news='esports' ORDER BY created DESC";
 $result = $db->prepare($sql);
 $result->execute();
 $posts = $result->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<div class="container my-9" style="background:black"> 
+
+<h1 class="page-title" style="text-align:left;background:white;color:black;font-family:Anton;font-size:5rem">E-SPORTS</h1>
 
 
-<h1 class="page-title">E-SPORTS</h1>
+
+<div class="card mb-3 w-100"  >
+  <div class="row g-0">
 
 
-<!-------------------------- Blog PART ---------------------------------------------------------------------------->
-                      
-          
-            
-  <div class="blog-post">
-        
-
-
- <?php foreach ($posts as $post) 
-        { ?>
-    
-    
+    <?php foreach ($posts as $post) { ?>
+  <div class="col-md-8 h-100 w-100" >
     <?php if(isset($post['pic']) & !empty($post['pic'])){?>
 
-      <img class="blog-post__img" src="<?php echo $post['pic']; ?>" alt="">
-            
-      <?php }else{  ?>
+      <a href="<?php echo $post['slug'];?>">
+    <img class="img-fluid" src="<?php echo $post['pic']; ?>"
+    alt=""></a>
 
-      <img  class="blog-post__img" src="http://placehold.it/750x300" alt="">
 
-      <?php } ?>
+    
+
+    <?php }else{  ?>
+
+    <img  class="img-fluid" src="http://placehold.it/750x300" alt="">
+
+    <?php } ?>
+
+  </div>
    
-
- <!----------------------------------BODY POST-------------------------------------------------------------->           
+   
+   
+    <div class="col-md-4" style="background:black">
+      <div class="card-body">
+        
+      <a href="<?php echo $post['slug'];?>"><h5 class="card-title" style="font-family:Anton;font-size:2.5rem;text-transform:uppercase;color:white"><?php echo $post['title']; ?></h5></a>
      
- <div class="blog-post__info">
-
-      <h1 class="blog-post__title"> <?php echo $post['title']; ?></h1>
-
-
-      <p class="blog-post__text"><?php echo $post['slug']; ?></p>
-            <?php
-              $sql = "SELECT * FROM comments WHERE pid=? AND status='approved'";
-              $result = $db->prepare($sql);
-              $result->execute(array($post['id']));
-              $commentcount = $result->rowCount();
-              if($commentcount >= 0){
-            ?>
-           <!---- <a href="#" class="blog-post__cta"><?php echo $commentcount; ?> Comments</a>------------>
-            <?php } ?>
-            <a href= "single.php?id=<?php  echo $post['slug'];    ?>"  class="blog-post__cta">&rarr; </a>
+        
       
-            
-<!---------------------------------DATE AND CREATOR PART---------------------------------------------------->
-            
-          <div class="blog-post__date">
-              <span> <?php  echo  $post['created'];?></span>
-                <?php 
+      
+        <p class="card-text">
+        <?php 
                 
                 $usersql = "SELECT * FROM users WHERE id=?";
                 $userresult = $db->prepare($usersql);
                 $userresult->execute(array($post['uid']));
                 $user = $userresult->fetch(PDO::FETCH_ASSOC);
                 
-                ?>             <!-----Date---------------------->
-                <a href="user-posts.php?id=<?php echo $user['id']; ?>"><?php if((isset($user['fname']) || isset($user['lname'])) & (!empty($user['fname']) || !empty($user['lname']))) {echo $user['fname'] . " " . $user['lname']; }
-                else{echo $user['username']; } ?></a>
-            
-          </div>
+                ?>   
+                <i class="fas fa-pen-alt" style="color:yellow"></i>
+        
+                <a style="font-size:0.8rem;color:yellow" href="<?php echo $user['username']; ?>">  <?php if((isset($user['fname']) || isset($user['lname'])) & (!empty($user['fname']) || !empty($user['lname']))) {echo $user['fname'] . " " . $user['lname']; }else{echo $user['username']; } ?></a>
+          |
+          <small style="color:yellow">
+           <?php 
+          
+            $created = date_create($post['created']);
+        
+            echo $created = date_format($created,"D, d M Y"); 
+          ?>
+          
+          </small>
+        </p>
+      </div>
+    </div>
 
 
 
 
+    <?php }  ?>
 
+
+  </div>
+</div>
 
 </div>
-   
-<?php }  ?>
 
 
-</div>        <!----------END OF MAIN BLOG_POST DIV------------------->
-
-
-
-<!-----------------editor choice for eSPorts--------------------------->
-
+<!-------------EDITORS CHOICE--------------------------->
 
 <?php 
 $sql = "SELECT * FROM posts WHERE status='published' and header='editorchoice' and news='esports'  ORDER BY created  DESC LIMIT 4 ";
@@ -114,76 +113,192 @@ $posts = $result->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
+<div class="container my-9"> 
+<h1 class="page-title" style="text-align:center;background:#19181c;color:yellow;font-family:Anton;font-size:5rem" >EDITOR's CHOICE</h1>
 
 
+<div class="row row-cols-1 row-cols-md-3" style="background:white">
 
-<div class="wrapper">
 
-
-<h1 class="page-title" style="text-align:center;background:black;color:yellow" >EDITOR's CHOICE</h1>
-
-<!----------foreach starts here--------->
-<?php foreach ($posts as $post) { ?>
-    
-  <div class="card">
-
-    
   
-       
+
+<?php foreach ($posts as $post) { ?>
+<!--------php---------------------------------------------------------------------------------------------------->
+  
+<div class="col mb-4">
+    <!-- Card --if same heigh needed put h-100 after card------>
+    <div class="card h-100 " style="background:#19181c;border-radius: 15px">
     
-  <div class="card-banner"> 
-    <!---- CATEGORY PART--->
-<?php 
-    
-  $catsql = "SELECT * FROM categories";
-  $catresult = $db->prepare($catsql);
-  $catresult->execute();
-  $catres = $catresult->fetchAll(PDO::FETCH_ASSOC);
-?>
-<?php foreach ($catres as $cat) { ?>
-      <a class="category-tag" href="category.php?id=<?php echo $cat['title']; ?>"><?php echo $cat['title']; ?></a>
+
+      
+      <div class="view overlay">
 
 
-      <?php } ?>
-
-
-
-
-
-      <!-------IMAGE PART-------------------->
       <?php if(isset($post['pic']) & !empty($post['pic'])){?>
 
-            <img class="banner-img" src="<?php echo $post['pic']; ?>" alt="">
-      
-      <?php }else{  ?>
 
-            <img  class="banner-img" src="http://placehold.it/750x300" alt="">
+        <img class="card-img-top" src="<?php echo $post['pic']; ?>"
+          alt="">
 
-      <?php } ?>
+
+        <a href="<?php echo $post['slug'];    ?>">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+
+        <?php }else{  ?>
+
+        <img  class="card-img-top" src="http://placehold.it/750x300" alt="">
+
+        <?php } ?>
+
+      </div>
+
+    
+      <div class="card-body">
+
+        
+        <a href="<?php echo $post['slug'];?>"></a>
+        <h4 class="card-title" style="color:white;font-family:Anton;text-align:center;font-size:1.5rem">
+            <?php echo $post['title']; ?>
+        </h4>
+        
+        <!--Text-->
+        
+                <?php 
+                
+                $usersql = "SELECT * FROM users WHERE id=?";
+                $userresult = $db->prepare($usersql);
+                $userresult->execute(array($post['uid']));
+                $user = $userresult->fetch(PDO::FETCH_ASSOC);
+                
+                ?>   
+                <i class="fas fa-pen-alt" style="color:yellow"></i>
+        
+        <a href="user-posts.php?id=<?php echo $user['id']; ?>" style="font-size:0.8rem;color:yellow">  <?php if((isset($user['fname']) || isset($user['lname'])) & (!empty($user['fname']) || !empty($user['lname']))) {echo $user['fname'] . " " . $user['lname']; }else{echo $user['username']; } ?></a>
+         
+          <small style="color:grey;justify-content:center"> 
+           &nbsp; | <?php  
+          $created = date_create($post['created']);
+        
+        echo $created = date_format($created," d M Y"); ?></small>
+      </div>
+        
       
-    </div> 
-    
-    
-    <!------TITLE----->
-    
-    <div class="card-body">
-                                   
-        <h2 class="blog-title"> <?php echo $post['title']; ?></h2>
-        <a href= "single.php?id=<?php  echo $post['slug'];    ?>"  class="blog-post__cta">&rarr; </a>
+
+
     </div>
+    <!-- Card -->
+  </div>
+
+
+
+  
+  <?php }  ?>
+  
+</div>
+
+<a 
+href="editorchoicefootball" 
+style="font-family:Anton;color:#b30b1e;font-weight:700;font-size:1rem;"> 
+View All Editor's Choice News <i class="fa fa-chevron-circle-right"></i> 
+</a>
+
+</div>
+
+
+<!-----------------------------------------------TRENDING POSTS----------------------------->
+<?php 
+$sql = "SELECT * FROM posts WHERE status='published' and header='recent' and news='esports'  ORDER BY created  DESC LIMIT 4 ";
+$result = $db->prepare($sql);
+$result->execute();
+$posts = $result->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+<div class="container">
+
+<div class="row">
+
+  <!-- Post Content Column -->
+  <div class="col-lg-8">
+
+<h1 class="page-title" style="text-align:center;background:lightblue;color:black;font-family:Anton;font-size:5rem" >TRENDING POSTS</h1>
+
+<!-- News jumbotron -->
+<div class="jumbotron text-center hoverable p-4" >
+
+  <!-- Grid row -->
+  <div class="row">
+
+
+  <?php foreach ($posts as $post) { ?>
+
+    <!-- Grid column -->
+    <div class="col-md-4 offset-md-1 mx-3 my-3">
+
+      <!-- Featured image -->
+      <div class="view overlay " style="">
+      
+      
+      <?php if(isset($post['pic']) & !empty($post['pic'])){?>
+
+
+        <a href="single.php?id=<?php  echo $post['slug'];    ?>"><img class="img-fluid  w-100" src="<?php echo $post['pic']; ?>"
+          alt=""></a>
+
+
+        
+              
+        
+
+<?php }else{  ?>
+
+<img  class="img-fluid" src="http://placehold.it/750x300" alt="">
+
+<?php } ?>
+
+        
+      </div>
+
+    </div>
+    
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-7 text-md-left ml-3 mt-3"  >
+
+      
      
-     <hr></hr>
-     <!------------DATE------------------------>
-     <div class="card-profile">
-     
-        <h3 class="blog-hashtag"><p> Posted on<?php  echo  $post['created'];?></p></h3>
+
+      <a href="single.php?id=<?php  echo $post['slug'];    ?>"><h4 class="h4 mb-4" style="font-family:Anton;color:black;font-size:1.5rem;"><?php echo ucfirst($post['title']); ?></h4></a>
+      
+      <!----CATEGORY BLOCK STARTS----->
+
+
+      <?php
+        $sql = "SELECT * FROM categories WHERE pid=? ";
+        $result = $db->prepare($sql);
+        $result->execute(array($post['id']));
+        $catres = $result->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+      
+      <?php foreach ($catres as $cat) { ?>
+        <h4> <?php echo $catres['title'];?></h4>
+         
+         
+         
+      <?php } ?>
+         
+         
+         
+               
         
-        
-        
-        
-         <!------------NAME------------------------>
-        <div class="card-profile-info">
-        <?php 
+      
+ 
+    <!----CATEGORY BLOCK ENDS----->
+      
+
+      <?php 
                 
                 $usersql = "SELECT * FROM users WHERE id=?";
                 $userresult = $db->prepare($usersql);
@@ -191,115 +306,151 @@ $posts = $result->fetchAll(PDO::FETCH_ASSOC);
                 $user = $userresult->fetch(PDO::FETCH_ASSOC);
                 
                 ?>  
+               <p class="card-text" style="color:grey">
+               
+        
+        <a href="user-posts.php?id=<?php echo $user['id']; ?>" style="font-size:0.8rem;color:grey">  <?php if((isset($user['fname']) || isset($user['lname'])) & (!empty($user['fname']) || !empty($user['lname']))) {echo $user['fname'] . " " . $user['lname']; }else{echo $user['username']; } ?></a>
+        
+        
+        
+          |
+          <small style="color:grey;justify-content:center"> 
+           &nbsp;<?php  
+          $created = date_create($post['created']);
+        
+        echo $created = date_format($created," d M Y"); ?></small>
+        </p>
+      
 
-              <a  class="profile-name" href="user-posts.php?id=<?php echo $user['id']; ?>"><?php if((isset($user['fname']) || isset($user['lname'])) & (!empty($user['fname']) || !empty($user['lname']))) {echo $user['fname'] . " " . $user['lname']; }
-                else{echo $user['username']; } ?></a>
-        </div>
-     </div>
-  
-  
-  <!------------end of -card and wrapper------------>
-  </div>
-  
+      <hr >
+      
+      
+
+
+
+
+
+    </div>
 
     
-  
-  <!--------php code-------------->
   <?php }  ?>
+    
 
 
-</div>
-
-
-
-<!-------------------CAROUSEL PART--------------------------------------------->
-<div class="page-wrapper">
-  <div class="post-slider">
       
-    <h1 class="slider-title" style="font-family:Anton;
-                                    text-align:center;
-                                    font-size:5rem;
-                                    color:black;
-                                    text-transform:uppercase;
-                                    margin:30px auto;
-                                    background:deepskyblue;
-                                    color:black"> 
-                                    Trending Posts
-    </h1>
+  
 
-    <i class="fas fa-chevron-left prev"></i>
-      <i class="fas fa-chevron-right next"></i>
-         
-         <!---------foreach--------------->
-          <div class="post-wrapper">
-            
-          
-             <div class="post">
-             <div class="post-info">
-                  <h4 style="font-family:Anton;text-align:center;margin:5px"> kjhkjjhjj kjkjm,m, lklklkl lklkl kjkjk kjkjkjkj kjkjkjk kjkjkjk kjkjk jkjkjkj</h4>
-                  <i class="far fa-user"> Arnav Kumar Nath</i>
-                  &nbsp;
-                  <h4> Created on </h4>
-                </div>   
-             <img src="https://static01.nyt.com/images/2019/04/16/sports/16onsoccerweb-2/merlin_153612873_5bb119b9-8972-4087-b4fd-371cab8c5ba2-superJumbo.jpg" alt="" class="slider-image">
-
-                
-            </div>
-
-
-            <div class="post">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Lionel_Messi_in_2018.jpg/220px-Lionel_Messi_in_2018.jpg" alt="" class="slider-image">
-
-                <div class="post-info">
-                  <h4 style="font-family:Anton;text-align:center;margin:5px"> Tit asdasd asdasdas asdasdas asdasd le</h4>
-                  <i class="far fa-user"> Arnav Kumar Nath</i>
-                  &nbsp;
-                  <h4> Created on </h4>
-                </div>
-            </div>
-
-
-            <div class="post">
-            <div class="post-info">
-                  <h4 style="font-family:Anton;text-align:center;margin:5px;color:black;text-transform:uppercase"> Pogba eyes Real Madrid trasfer admist corona</h4>
-                  
-                </div>    
-            <img src="https://i.guim.co.uk/img/media/c5ec218bff3ffa76670323021878bb4886deda48/0_177_5328_3198/master/5328.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c22dd7d78f6a72dbdc812533000b6d11" alt="" class="slider-image">
-
-                
-            </div>
-
-
-            <div class="post">
-                <img src="https://i.insider.com/5f454a4242f43f001ddfee74?width=1100&format=jpeg&auto=webp" alt="" class="slider-image">
-
-                <div class="post-info">
-                  <h4 style="font-family:Anton;text-align:center;margin:5px"> Titlas;ld;asld;als;dla;sdl;asld asdasd asdasd e</h4>
-                  <i class="far fa-user"> Arnav Kumar Nath</i>
-                  &nbsp;
-                  <h4> Created on </h4>
-                </div>
-            </div>
-          
-          
-          
-          </div>
-
-
-        <!----------php syntax--------->
-        
-      </div>
-</div>
-
-
+  </div>
+  
+  <!-- Grid row -->
 
 
   
+  
+  
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+<!-----POINTS TABLE----->
+<?php 
+
+$sql = "SELECT * FROM points WHERE league='premierleague' ORDER BY points DESC";
+$result = $db->prepare($sql);
+$result->execute();
+$points = $result->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+<div class="col-md-4">
+<div class="btn-group">
+    <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black;color:white;font-family:Anton">Premier League</button>
+
+    <div class="dropdown-menu">
+        <option class="dropdown-item"  style="background:black;color:white;font-family:Anton">La Liga</option>
+        <option class="dropdown-item" href="#" style="background:black;color:white;font-family:Anton">France Ligue1</option>
+        <option class="dropdown-item" href="#" style="background:black;color:white;font-family:Anton">Serie A</option>
+        <option class="dropdown-item" href="#" style="background:black;color:white;font-family:Anton">Bundesliga</option>
+        <option class="dropdown-item" href="#" style="background:black;color:white;font-family:Anton">ISL</option>
+        </div>
+</div>
+<h1 class="page-header" style="background:#3f0947;font-family:Anton;color:white;text-align:center;margin:2px">
+
+<img   src="https://www.thesportsdb.com/images/media/league/logo/4c377s1535214890.png" style="height:70px ">  </h1>
+<div class="panel panel-default">
+                        
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                 
+                                <table class="table table-hover" >
+                                    <thead style="background:lightblue;color:black;font-weight:700;font-family:Anton;font-size:2rem">
+                                        <tr>
+                                            <th style="font-size:1rem">Position</th>
+                                            <th style="font-size:1rem">Club</th>
+                                            <th style="font-size:1rem">Played</th>
+                                            
+                                            <th style="font-size:1rem">Points</th>
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                 
+                                    
+                                    <?php
+                                        foreach ($points as $pointstb) {
+                                            ?>
+                                     
+                                        <tr >
+                                        <td style="font-weight:bold;font-size:0.8rem"><?php echo $pointstb['pos']; ?></td>
+                                            <td style="font-weight:bold;font-size:0.8rem"><?php echo $pointstb['club']; ?></td>
+                                            <td style="font-weight:bold;font-size:0.8rem"><?php echo $pointstb['mp']; ?></td>
+                                           
+                                            <td style="font-weight:bold;font-size:0.8rem"><?php echo $pointstb['points']; ?></td>
+                                            
+                                            
+                                         
+                                        </tr>
+                                        
+                                     <?php } ?>
+                        
+                                        </tbody>
+                                        </table>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <a href="premierleague" style="color:red;font-weight:bold"> View Full Table <i class='fas fa-caret-right'></i></a>
+
+                                    <!----END OF POINTS TABLE---->
+
+</div>
+
+
+
+</div>    
+
+
+
+      <!-----FOR THE CONTAINER ---->
+
+
+   
+
+
+</div>
+
+
 
 <?php include('includes/footer.php'); ?>
 
 
 
-<script src="vendor/jquery/main.js"></script>
-<script src="vendor/slick.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

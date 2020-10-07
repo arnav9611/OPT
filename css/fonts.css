@@ -6,3 +6,7 @@
     src: url('../fonts/Anton-Regular.ttf');
 }
 
+@font-face {
+    font-family: RobotoCondensed;
+    src: url('../fonts/RobotoCondensed-Regular.ttf');
+}

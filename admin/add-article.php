@@ -20,7 +20,12 @@ if (isset($_POST) & !empty($_POST)) {
     {
         $errors[]="Slug Field is Required";
     }
+    if(empty($_FILES['pic']['name']))
+    {
+        $errors[] = "You Should Upload a Pic File";
+    }
 
+   
     
  //CSRF Validation------------------------------------------------------------------------------------
     if(isset($_POST['csrf_token'])){
@@ -120,14 +125,16 @@ $_SESSION['csrf_token_time'] = time();
 
 
 include('includes/header.php'); 
-include('includes/navigation.php'); ?>
+include('includes/navigation.php'); 
+
+?>
 
 
         
-      <div id="page-wrapper" style="min-height: 345px;">
+      <div id="page-wrapper" style="min-height: 345px;" >
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Add New Article</h1>
+                    <h1 class="page-header" style="">Add New Article</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -135,8 +142,8 @@ include('includes/navigation.php'); ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Create a New Article Here...
+                        <div class="panel-heading" style="background:black;color:white">
+                            Create a New Article Here
                         </div>
                         <div class="panel-body">
                         <?php
@@ -171,10 +178,7 @@ include('includes/navigation.php'); ?>
                                         
                                         
                                         
-                                        <div class="form-group">
-                                            <label>Article Content</label>
-                                            <textarea class="form-control" name="content" rows="3"><?php if(isset($_POST['content'])){echo $_POST['content'];} ?></textarea>
-                                        </div>
+                                       
                                         
                                         
                                         
@@ -202,7 +206,7 @@ include('includes/navigation.php'); ?>
                                                 ?>
                                                     <label>Categories</label>
                                                     <select multiple="" name="categories[]" class="form-control">
-                                                <?php
+                                                    <?php
                                                     foreach ($res as $cat) {
                                                         if(in_array($cat['id'], $_POST['categories'])){ $checked = "selected"; }else{ $checked = ""; }
                                                         echo "<option value='".$cat['id']."'".$checked .">".$cat['title']."</option>";
@@ -259,7 +263,11 @@ include('includes/navigation.php'); ?>
                                                 </label>
                                             </div>
 
-                                            
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="news" id="optionsRadios4" value="transfer" <?php if(isset($_POST) & !empty($_POST)){ if($_POST['news'] == 'transfer'){ echo "checked"; } } ?>>Transfer News
+                                                </label>
+                                            </div>
                                         
                                         </div>
                                     </div>
@@ -286,11 +294,7 @@ include('includes/navigation.php'); ?>
                                                 </label>
                                             </div>
 
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="header" id="optionsRadios4" value="transfer" <?php if(isset($_POST) & !empty($_POST)){ if($_POST['header'] == 'transfer'){ echo "checked"; } } ?>>Transfer News
-                                                </label>
-                                            </div>
+                                            
                                         
                                         
                                         </div>
@@ -303,10 +307,14 @@ include('includes/navigation.php'); ?>
                                        
                                        
                                         <div class="form-group">
-                                            <label>Article Slug</label>
-                                            <input class="form-control" name="slug" placeholder="Enter Article Slug Here" value="<?php if(isset($_POST['slug'])){echo $_POST['slug'];} ?>">
-                                        </div>
+                                    <label>Article Slug</label>
+                                    <input class="form-control" name="slug" placeholder="Enter Article Slug Here" value="<?php if(isset($_POST['slug'])){ echo $_POST['slug'];} ?>">
+                                </div>
                                         
+                                        <div class="form-group">
+                                            <label>Article Content</label>
+                                            <textarea class="form-control" name="content" rows="30"><?php if(isset($_POST['content'])){echo $_POST['content'];} ?></textarea>
+                                        </div>
                                         
                                         
                                         <input type="submit" class="btn  btn-success btn-block" value="Submit" />

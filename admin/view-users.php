@@ -5,6 +5,9 @@ include('includes/check-admin.php');
 include('includes/check-subscriber.php');
 include('includes/header.php'); 
 include('includes/navigation.php'); 
+
+
+
 // get number of per page results from settings table
 $rppsql = "SELECT * FROM settings WHERE name='resultsperpage'";
 $rppresult = $db->prepare($rppsql);
@@ -29,7 +32,11 @@ $startpage = 1;
 $nextpage = $curpage + 1;
 $previouspage = $curpage - 1;
 $start = ($curpage * $perpage) - $perpage; 
+
 ?>
+
+
+
 <div id="page-wrapper" style="min-height: 345px;">
     <div class="row">
         <div class="col-lg-12">
@@ -50,7 +57,7 @@ $start = ($curpage * $perpage) - $perpage;
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>User No</th>
                                     <th>User Name</th>
                                     <th>Name</th>
                                     <th>E-Mail</th>
@@ -82,7 +89,7 @@ $start = ($curpage * $perpage) - $perpage;
                                 </tr>
                                 <?php } ?>
                             </tbody>
-                        </table>
+                            </table>
                     </div>
                     <!-- /.table-responsive -->
                     <!-- Pagination -->

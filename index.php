@@ -1,5 +1,5 @@
 <link href="../css/Style.css" rel="stylesheet">
- <link href="../css/all.css" rel="stylesheet">
+<link href="../css/all.css" rel="stylesheet">
 
 <?php 
 session_start();
@@ -217,7 +217,7 @@ $posts = $result->fetchAll(PDO::FETCH_ASSOC);
             ?>
             <a href="#" class="btn btn-secondary"><?php echo $commentcount; ?> Comments</a>
             <?php } ?>
-              <a href= "single.php?id=<?php  echo $post['slug'];?>"  class="btn btn-primary">Read the Article </a>
+              <a href= "<?php  echo $post['slug'];?>"  class="btn btn-primary">Read the Article </a>
             </div>
             
             

@@ -36,10 +36,28 @@ if($user['role'] == 'administrator'){
 			$table = 'points';
 			$redirect = 'view-points.php';
 			break;
+		case 'rank':
+			$table = 'tennisrank';
+			$redirect = 'view-tennisranks.php';
+			break;
+		case 'grand':
+			$table = 'grandslam';
+			$redirect = 'view-grandslams.php';
+			break;
+		case 'tennisevent':
+			$table = 'tennisevent';
+			$redirect = 'view-tennisevents.php';
+			break;
+		case 'videopost':
+			$table = 'videoposts';
+			$redirect = 'view-videoposts.php';
+			break;
 		default:
 			$redirect = 'dashboard.php';
 			break;
 	}
+
+
 }elseif($user['role'] == 'editor'){
 	switch ($_GET['item']) {
 		case 'category':
@@ -57,6 +75,22 @@ if($user['role'] == 'administrator'){
 		case 'point':
 			$table = 'points';
 			$redirect = 'view-points.php';
+			break;
+		case 'rank':
+			$table = 'tennisrank';
+			$redirect = 'view-tennisranks.php';
+			break;
+		case 'grand':
+			$table = 'grandslam';
+			$redirect = 'view-grandslams.php';
+			break;
+		case 'tennisevent':
+			$table = 'tennisevent';
+			$redirect = 'view-tennisevents.php';
+			break;
+		case 'videopost':
+			$table = 'videoposts';
+			$redirect = 'view-videoposts.php';
 			break;
 		default:
 			$redirect = 'dashboard.php';

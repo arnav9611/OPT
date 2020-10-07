@@ -123,13 +123,15 @@ if($user['role'] == 'administrator'){
     $result = $db->prepare($sql);
     $result->execute(array($_GET['id']));
     $post = $result->fetch(PDO::FETCH_ASSOC);       
-}elseif($user['role'] == 'editor'){
+}elseif($user['role'] == 'editor')
+{
     $sql = "SELECT * FROM posts WHERE id=? AND uid={$_SESSION['id']}";
     $result = $db->prepare($sql);
     $result->execute(array($_GET['id']));
     $postcount = $result->rowCount();
     $post = $result->fetch(PDO::FETCH_ASSOC);
-    if($postcount <= 0){
+    if($postcount <= 0)
+    {
         header("location: view-articles.php");
     }
 } 
@@ -180,10 +182,12 @@ include('includes/navigation.php');
                                     <label>Edit Article Title</label>
                                     <input class="form-control" name="title" placeholder="Edit Article Title" value="<?php if(isset($post['title'])){ echo $post['title'];} ?>">
                                 </div>
+
                                 <div class="form-group">
                                     <label>Edit Article Content</label>
                                     <textarea class="form-control" name="content" rows="3"><?php if(isset($post['content'])){ echo $post['content'];} ?></textarea>
                                 </div>
+                                
                                 <div class="form-group">
                                     <?php
                                         if(isset($post['pic']) & !empty($post['pic'])){
@@ -275,6 +279,11 @@ include('includes/navigation.php');
                                                     <input type="radio" name="news" id="optionsRadios10" value="tennis" <?php  if($post['news'] == 'tennis'){ echo "checked"; }  ?>>Tennis
                                                 </label>
                                             </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="news" id="optionsRadios3" value="transfer" <?php  if($post['news'] == 'transfer'){ echo "checked"; }  ?>>Transfer News 
+                                                </label>
+                                            </div>
 
                                             
                                         
@@ -302,11 +311,7 @@ include('includes/navigation.php');
                                                     <input type="radio" name="header" id="optionsRadios3" value="editorchoice" <?php  if($post['header'] == 'editorchoice'){ echo "checked"; }  ?>>Editor's Choice
                                                 </label>
                                             </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="header" id="optionsRadios3" value="transfer" <?php  if($post['header'] == 'transfer'){ echo "checked"; }  ?>>Transfer News 
-                                                </label>
-                                            </div>
+                                            
                                         
                                         
                                         </div>
